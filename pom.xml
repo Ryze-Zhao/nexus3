@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.7.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.zhaostudy</groupId>
+    <artifactId>nexus3</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>nexus3</name>
+    <description>nexus3搭建maven仓库使用</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web-services</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+    </plugins>
+</build>
+
+    <!--用来配置maven项目的远程仓库-->
+    <repositories>
+        <repository>
+            <!--id必须与本地maven的settings.xml配置的server的id相同-->
+            <id>maven-public</id>
+            <name>my nexus mirror public</name>
+            <url>http://49.232.2.137:8081/repository/maven-public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
+    <!-- 使用分发管理将本项目打成jar包，直接上传到指定服务器 -->
+    <distributionManagement>
+        <!--正式版本, 项目的<version>不带有-SNAPSHOT的代表正式发布的包，版本必须唯一-->
+        <repository>
+            <!--id必须与本地maven的settings.xml配置的server的id相同-->
+            <id>nexus-releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://49.232.2.137:8081/repository/maven-releases/</url>
+        </repository>
+        <!--开发版本, 项目的<version>带有-SNAPSHOT的代表正在开发的包，版本不要求唯一（类似于快照）-->
+        <snapshotRepository>
+            <!--id必须与本地maven的settings.xml配置的server的id相同-->
+            <id>my_nexus</id>
+            <name>Nmy_nexus</name>
+            <url>http://49.232.2.137:8081/repository/my_nexus/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+</project>
